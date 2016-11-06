@@ -27,21 +27,20 @@ module Kristin
     def initialize(bot)
       @bot     = bot
       @plugins = Array.new
-      Kristin.notice("Plugin library initialized.")
+      Kristin.notify("Plugin library initialized.")
 
       plugin_config = File.join(File.expand_path(".."), "data", "plugins.yml")
       plugin_list = YAML.load_file(plugin_config) if File.file?(plugin_config)
       Kristin.error("Plugin config does not exist.") unless plugin_list
 
       plugin_list.each do |plugin|
-        load_plugin(plugin)
+        load_plugin(plugin.downcase)
       end
 
-      Kristin.notice("All plugins loaded.")
+      Kristin.notify("All plugins loaded.")
     end
 
     def load_plugin(plugin)
-      plugin = plugin.downcase
       plugin_file = File.join(File.expand_path(".."), "plugins", "#{plugin}.rb")
       if File.file?(plugin_file)
         require_relative plugin_file
@@ -66,10 +65,12 @@ module Kristin
   end
 
   class Plugin_Base
+    attr_accessor :config
 
     def initialize(socket, bot)
       @bot    = bot
       @socket = socket
+      @config = Hash.new
     end
 
     def msg_match(msg, re)
@@ -79,7 +80,7 @@ module Kristin
     end
 
     def cmd_match(msg, re)
-      if msg[:content].match(/^(?:#{@bot[:prefix]}|#{@bot[:nickname]}(?::|,)? |#{msg[:from] == msg[:nickname] ? "" : @bot[:prefix]})#{re}(?: .*)?/)
+      if msg[:content].match(/^(?:#{@bot[:prefix]}|#{@bot[:nickname]}(?::|,)? |#{msg[:from] == msg[:nickname] ? "" : @bot[:prefix]})#{re}(?: .*)?/i)
         return $~
       end
     end

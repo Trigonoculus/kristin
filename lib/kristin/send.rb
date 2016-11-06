@@ -41,6 +41,14 @@ module Kristin
     Kristin.privmsg(socket, to, "\x01ACTION #{msg}\x01")
   end
 
+  def Kristin.notice(socket, to, msg)
+    Kristin.msg(socket, "NOTICE #{to} :#{msg}")
+  end
+
+  def Kristin.done(socket, to)
+    Kristin.notice(socket, to, "Done.")
+  end
+
   def Kristin.join(socket, channel)
     Kristin.msg(socket, "JOIN #{channel}")
   end

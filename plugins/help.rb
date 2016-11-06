@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 module Kristin
-  class Plugin_Echo < Plugin_Base
+  class Plugin_Help < Plugin_Base
 
     def config
       {
@@ -30,11 +30,17 @@ module Kristin
     end
 
     def execute(msg)
-      if cmd = cmd_match(msg, /(echo|say|action) (.+)/)
-        if cmd[1] == "action"
-          Kristin.action(@socket, msg[:from], cmd[2])
-        else
-          Kristin.privmsg(@socket, msg[:from], cmd[2])
+      if cmd = cmd_match(msg, /help(?: ([^\s]+))?/)
+        if cmd[1] != nil
+          help_cmd = cmd[1].downcase
+          help_file = File.join(File.expand_path(".."), "data", "help.yml")
+          help_all = YAML.load_file(help_file) if File.file?(help_file)
+          Kristin.warning("Help file does not exist.") unless help_all
+
+          if help_all.has_key?(help_cmd)
+            help_msg = help_all[help_cmd].gsub(/{prefix}/, @bot[:prefix]).gsub(/{bold}/, "\x02")
+            Kristin.notice(@socket, msg[:nickname], help_msg)
+          end
         end
       end
     end

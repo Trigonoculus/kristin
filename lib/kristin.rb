@@ -30,8 +30,8 @@ module Kristin
     DateTime.now.strftime("%H:%M:%S")
   end
 
-  def Kristin.notice(m)
-    puts "[#{Kristin.time}] \e[94mNotice: #{m}\e[0m"
+  def Kristin.notify(m)
+    puts "[#{Kristin.time}] \e[94mNotify: #{m}\e[0m"
   end
 
   def Kristin.warning(m)

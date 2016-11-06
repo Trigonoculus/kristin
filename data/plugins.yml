@@ -1,3 +1,7 @@
+## A list of all plugins to be registered.
+## Any plugins listed below will be automatically loaded by the bot on startup.
+
+- "help"
 - "echo"
 - "ping"
 - "eightball"

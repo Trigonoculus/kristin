@@ -23,33 +23,41 @@
 module Kristin
   class Plugin_Eightball < Plugin_Base
 
-    def execute(msg)
-      if cmd_match(msg, /(eightball|8ball) (.+)\?/)
-        ball_replies = ["It is certain.",
-          "It is decidedly so.",
-          "Without a doubt.",
-          "Yes, definitely.",
-          "You may rely on it.",
-          "As I see it, yes.",
-          "Most likely.",
-          "Outlook good.",
-          "Yes.",
-          "Signs point to yes.",
-          "Reply hazy try again.",
-          "Ask again later.",
-          "Better not tell you now.",
-          "Cannot predict now.",
-          "Concentrate and ask again.",
-          "Don't count on it.",
-          "My reply is no.",
-          "My sources say no.",
-          "Outlook not so good.",
-          "Very doubtful."
-        ]
+    def config
+      {
 
-        Kristin.reply(@socket, msg[:from], msg[:nickname], ball_replies.sample)
-      else
-        Kristin.reply(@socket, msg[:from], msg[:nickname], "I cannot answer that, try asking a question.")
+      }
+    end
+
+    def execute(msg)
+      if cmd = cmd_match(msg, /(?:eightball|8ball) (.+)/)
+        if cmd[1].match(/\?/)
+          ball_replies = ["It is certain.",
+            "It is decidedly so.",
+            "Without a doubt.",
+            "Yes, definitely.",
+            "You may rely on it.",
+            "As I see it, yes.",
+            "Most likely.",
+            "Outlook good.",
+            "Yes.",
+            "Signs point to yes.",
+            "Reply hazy try again.",
+            "Ask again later.",
+            "Better not tell you now.",
+            "Cannot predict now.",
+            "Concentrate and ask again.",
+            "Don't count on it.",
+            "My reply is no.",
+            "My sources say no.",
+            "Outlook not so good.",
+            "Very doubtful."
+          ]
+
+          Kristin.reply(@socket, msg[:from], msg[:nickname], ball_replies.sample)
+        else
+          Kristin.reply(@socket, msg[:from], msg[:nickname], "I cannot answer that, try asking a question.")
+        end
       end
     end
 

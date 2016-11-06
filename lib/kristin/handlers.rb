@@ -25,7 +25,7 @@ module Kristin
     def initialize(bot, plugins)
       @bot      = bot
       @plugins  = plugins
-      Kristin.notice("Handlers initialized.")
+      Kristin.notify("Handlers initialized.")
     end
 
     def handle_privmsg(socket, data)
@@ -43,18 +43,18 @@ module Kristin
     end
 
     def handle_376
-      Kristin.notice("Received end of MOTD.")
+      Kristin.notify("Received end of MOTD.")
     end
 
     alias_method :handle_422, :handle_376
 
     def handle_903
-      Kristin.notice("SASL authentification successful.")
+      Kristin.notify("SASL authentification successful.")
     end
 
     def handle_904
       Kristin.warning("SASL authentification failed.")
-      Kristin.notice("Attempting NickServ authentification.")
+      Kristin.notify("Attempting NickServ authentification.")
     end
   end
 end

@@ -1,0 +1,15 @@
+## This file contains help messages for all commands.
+## If the command has multiple aliases, you may wish to duplicate the help message.
+## Or make the message state that it's an alias for another command.
+
+## To create the prefix, type {prefix} in the message.
+## To create a bold character, type {bold} in the message.
+
+help: "{prefix}help [command] - Lists all available commands or gets help for a particular command."
+echo: "{prefix}echo <text> - Echoes back text."
+say: "{prefix}say <text> - Alias for {prefix}echo."
+action: "{prefix}action <action> - Echoes back the action as an IRC action."
+ping: "{prefix}ping - Gets a ping response from the bot."
+pong: "{prefix}pong - Alias for {prefix}ping."
+eightball: "{prefix}eightball <question> - Answers your question using the Magic 8-Ball."
+8ball: "{prefix}8ball <question> - Answers your question using the Magic 8-Ball."

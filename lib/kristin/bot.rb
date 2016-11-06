@@ -52,11 +52,11 @@ module Kristin
 
     def connect!
       unless @socket
-        Kristin.notice("Connecting to #{@server[:addr]}:#{@server[:ssl] ? "+" : ""}#{@server[:port]}")
+        Kristin.notify("Connecting to #{@server[:addr]}:#{@server[:ssl] ? "+" : ""}#{@server[:port]}")
 
         create_socket(@server[:ssl])
 
-        Kristin.notice("Connected to #{@server[:addr]}:#{@server[:ssl] ? "+" : ""}#{@server[:port]}")
+        Kristin.notify("Connected to #{@server[:addr]}:#{@server[:ssl] ? "+" : ""}#{@server[:port]}")
         Kristin.msg(@socket, "PASS #{@server[:pass]}") if @server[:pass]
 
         identify_sasl(@bot[:username], @bot[:password]) if @bot[:identify].downcase == "sasl"
@@ -70,6 +70,8 @@ module Kristin
       end
     end
 
+    private
+
     def listen!
       until @socket.eof? do
         data = @socket.gets
@@ -77,7 +79,7 @@ module Kristin
         case data
         when /^PING/
           Kristin.msg(@socket, "PONG #{data.gsub(/^PING /, "")}")
-          Kristin.notice("Pinged by server, responding with PONG.")
+          Kristin.notify("Pinged by server, responding with PONG.")
         when /^:[^\s]+!~?[^\s]+@[^\s]+ PRIVMSG/
           @handlers.handle_privmsg(@socket, data.chomp.split(' ', 4))
         when /^:[^\s]+ (376|422|903)/
@@ -87,7 +89,7 @@ module Kristin
           identify_nickserv(@bot[:username], @bot[:password])
         end
 
-        #puts data
+        puts data
 
         trap "SIGINT" do
           puts ": Signal interrupted, exiting."
@@ -126,7 +128,7 @@ module Kristin
         sleep(1)
       else
         Kristin.warning("Base64 gem not found. Please install it if you wish to identify with SASL.")
-        Kristin.notice("Attempting NickServ identification.")
+        Kristin.notify("Attempting NickServ identification.")
         @bot[:identify] = "nickserv"
       end
     end

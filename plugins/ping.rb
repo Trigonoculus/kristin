@@ -23,6 +23,12 @@
 module Kristin
   class Plugin_Ping < Plugin_Base
 
+    def config
+      {
+
+      }
+    end
+
     def execute(msg)
       if cmd_match(msg, /(ping|pong)/)
         ping_replies = [
