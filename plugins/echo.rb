@@ -30,7 +30,7 @@ module Kristin
     end
 
     def execute(msg)
-      if cmd = cmd_match(msg, /(echo|say|action) (.+)/)
+      if cmd = cmd_match(msg, /(echo|say|tell|action) (.+)/)
         if cmd[1] == "action"
           Kristin.action(@socket, msg[:from], cmd[2])
         else
